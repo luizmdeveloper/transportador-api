@@ -7,6 +7,6 @@ import com.luizmario.developer.api.repository.filtro.transportador.Transportador
 
 public interface TransportadorRepositoryQuery {
 	
-	public Page<Transportador> filtrar(TransportadorFiltro filtro);
+	public Page<Transportador> filtrar(Page page, TransportadorFiltro filtro);
 
 }

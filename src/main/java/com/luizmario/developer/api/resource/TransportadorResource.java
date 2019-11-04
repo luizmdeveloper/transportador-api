@@ -28,7 +28,7 @@ public class TransportadorResource {
 	
 	@GetMapping
 	public ResponseEntity<Page<Transportador>> buscar(Page page, TransportadorFiltro filtro) {
-		return ResponseEntity.ok(transportadorRepository.filtrar(filtro));
+		return ResponseEntity.ok(transportadorRepository.filtrar(page, filtro));
 	}
 	
 	@GetMapping("/{codigo}")
