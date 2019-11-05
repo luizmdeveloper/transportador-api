@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<aws-java-sdk.version>1.11.274</aws-java-sdk.version>
 	</properties>
 
 	<dependencies>
@@ -47,6 +48,13 @@
 		    <groupId>org.flywaydb</groupId>
 		    <artifactId>flyway-core</artifactId>
 		</dependency>		
+
+		<!-- SDK amazon -->
+		<dependency>
+		    <groupId>com.amazonaws</groupId>
+		    <artifactId>aws-java-sdk</artifactId>
+		    <version>${aws-java-sdk.version}</version>
+		</dependency>		
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -58,6 +66,11 @@
 					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 
