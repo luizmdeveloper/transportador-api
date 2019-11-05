@@ -35,6 +35,13 @@ public class TransportadorService {
 
 	public Transportador alterar(Long codigo, Transportador transportador) {
 		Transportador transportadorSalvo = buscarTransportadorPorCodigo(transportador.getCodigo());
+
+		if (transportador.getContato() != null) {			
+			if (temTelefonePreenchido(transportador)) {
+				throw new NenhumTelefoneInformadoException();
+			}
+		}
+		
 		modalTransporteService.buscarModalTransportePorCodigo(transportador.getModalTransporte().getCodigo());
 		BeanUtils.copyProperties(transportador, transportadorSalvo, "codigo");
 		return transportadorRepository.save(transportadorSalvo);
