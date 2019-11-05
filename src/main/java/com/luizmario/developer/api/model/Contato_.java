@@ -6,7 +6,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 
 @Generated(value = "org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor")
 @StaticMetamodel(Contato.class)
-public abstract class Telefone_ {
+public abstract class Contato_ {
 
 	public static volatile SingularAttribute<Contato, String> whatsapp;
 	public static volatile SingularAttribute<Contato, String> telefone;

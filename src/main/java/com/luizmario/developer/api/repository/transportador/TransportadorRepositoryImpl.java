@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -21,9 +21,9 @@ import com.luizmario.developer.api.model.Transportador;
 import com.luizmario.developer.api.model.Transportador_;
 import com.luizmario.developer.api.repository.filtro.TransportadorFiltro;
 
-public class TransportadorRespositoryImpl implements TransportadorRepositoryQuery {
+public class TransportadorRepositoryImpl implements TransportadorRepositoryQuery {
 	
-	@PersistenceContext
+	@Autowired
 	private EntityManager manager;
 
 	@Override
@@ -57,15 +57,15 @@ public class TransportadorRespositoryImpl implements TransportadorRepositoryQuer
 		
 		if (filtro != null) {
 			
-			if (StringUtils.isEmpty(filtro.getNome())) {
+			if (!StringUtils.isEmpty(filtro.getNome())) {
 				predicates.add(builder.like(builder.upper(root.get(Transportador_.nome)), "%" + filtro.getNome().toUpperCase() + "¨%"));
 			}
 
-			if (StringUtils.isEmpty(filtro.getEstado())) {
+			if (!StringUtils.isEmpty(filtro.getEstado())) {
 				predicates.add(builder.equal(builder.upper(root.get(Transportador_.endereco).get(Endereco_.estado)), filtro.getNome().toUpperCase()));
 			}
 
-			if (StringUtils.isEmpty(filtro.getCidade())) {
+			if (!StringUtils.isEmpty(filtro.getCidade())) {
 				predicates.add(builder.like(builder.upper(root.get(Transportador_.endereco).get(Endereco_.estado)), "%" + filtro.getCidade().toUpperCase() + "%"));
 			}
 			

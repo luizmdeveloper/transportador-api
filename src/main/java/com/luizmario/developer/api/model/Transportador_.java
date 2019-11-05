@@ -9,10 +9,10 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class Transportador_ {
 
 	public static volatile SingularAttribute<Transportador, Long> codigo;
-	public static volatile SingularAttribute<Transportador, Telefone> telefone;
 	public static volatile SingularAttribute<Transportador, Endereco> endereco;
 	public static volatile SingularAttribute<Transportador, ModalTransporte> modalTransporte;
 	public static volatile SingularAttribute<Transportador, String> nome;
+	public static volatile SingularAttribute<Transportador, Contato> contato;
 	public static volatile SingularAttribute<Transportador, String> email;
 
 }

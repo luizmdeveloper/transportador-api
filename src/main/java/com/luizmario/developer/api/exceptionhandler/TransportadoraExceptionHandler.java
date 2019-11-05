@@ -19,6 +19,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.luizmario.developer.api.service.exception.ModalTransporteNaoEncontradoException;
+import com.luizmario.developer.api.service.exception.NenhumTelefoneInformadoException;
 import com.luizmario.developer.api.service.exception.TransportadorNaoEncontradoException;
 
 @ControllerAdvice
@@ -39,6 +40,15 @@ public class TransportadoraExceptionHandler extends ResponseEntityExceptionHandl
 	@ExceptionHandler({TransportadorNaoEncontradoException.class})
 	public ResponseEntity<Object> handleTransportadorNaoEncontradoException(TransportadorNaoEncontradoException ex, WebRequest request){
 		String mensagemUsuario = messageSource.getMessage("mensagem.transportador-nao-encontrado", null, request.getLocale());
+		String mensagemDesenvolvedor =  ex.toString();
+		List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+		
+		return ResponseEntity.badRequest().body(erros);
+	}
+	
+	@ExceptionHandler({NenhumTelefoneInformadoException.class})
+	public ResponseEntity<Object> handleNenhumTelefoneInformadoException(NenhumTelefoneInformadoException ex, WebRequest request){
+		String mensagemUsuario = messageSource.getMessage("mensagem.nenhum-contato-transportador-preenchido", null, request.getLocale());
 		String mensagemDesenvolvedor =  ex.toString();
 		List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
 		

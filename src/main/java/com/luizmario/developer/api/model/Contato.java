@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class Telefone implements Serializable {
+public class Contato implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private String telefone;

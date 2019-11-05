@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -14,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,7 +46,7 @@ public class TransportadorResource {
 	}
 	
 	@GetMapping("/{codigo}")
-	public ResponseEntity<Transportador> buscar(@PathParam(value = "codigo") Long codigo) {
+	public ResponseEntity<Transportador> buscar(@PathVariable Long codigo) {
 		Optional<Transportador> optionalTransportador = transportadorRepository.findById(codigo);
 		return optionalTransportador.isPresent() ? ResponseEntity.ok(optionalTransportador.get()) : ResponseEntity.notFound().build();
 	}
@@ -59,13 +59,13 @@ public class TransportadorResource {
 	}
 	
 	@PutMapping("/{codigo}")
-	public ResponseEntity<Transportador> alterar(@PathParam(value="codigo") Long codigo, @RequestBody @Valid Transportador transportador){
+	public ResponseEntity<Transportador> alterar(@PathVariable Long codigo, @RequestBody @Valid Transportador transportador){
 		return ResponseEntity.ok(transportadorService.alterar(codigo, transportador));
 	}
 	
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void excluir(@PathParam(value="codigo") Long codigo) {
+	public void excluir(@PathVariable Long codigo) {
 		transportadorService.excluir(codigo);
 	}
 }

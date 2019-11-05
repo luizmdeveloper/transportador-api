@@ -5,9 +5,11 @@ import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.luizmario.developer.api.model.Transportador;
 import com.luizmario.developer.api.repository.TransportadorRepository;
+import com.luizmario.developer.api.service.exception.NenhumTelefoneInformadoException;
 import com.luizmario.developer.api.service.exception.TransportadorNaoEncontradoException;
 
 @Service
@@ -19,7 +21,14 @@ public class TransportadorService {
 	@Autowired
 	private ModalTransporteService modalTransporteService;
 	
-	public Transportador salvar(Transportador transportador){	
+	public Transportador salvar(Transportador transportador) {
+		
+		if (transportador.getContato() != null) {			
+			if (temTelefonePreenchido(transportador)) {
+				throw new NenhumTelefoneInformadoException();
+			}
+		}
+		
 		modalTransporteService.buscarModalTransportePorCodigo(transportador.getModalTransporte().getCodigo());		
 		return transportadorRepository.save(transportador);
 	}
@@ -36,6 +45,12 @@ public class TransportadorService {
 		transportadorRepository.delete(transportador);
 	}
 
+	private boolean temTelefonePreenchido(Transportador transportador) {
+		return (StringUtils.isEmpty(transportador.getContato().getCelular())) && 
+			   (StringUtils.isEmpty(transportador.getContato().getTelefone())) && 
+		 	   (StringUtils.isEmpty(transportador.getContato().getWhatsapp()));
+	}
+	
 	private Transportador buscarTransportadorPorCodigo(Long codigo) {
 		Optional<Transportador> optionalTransportador = transportadorRepository.findById(codigo);
 		

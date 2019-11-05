@@ -8,8 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -31,13 +32,15 @@ public class Transportador implements Serializable {
 	@NotBlank
 	private String email;
 	
+	@Valid
 	@Embedded
-	private Telefone telefone;
+	private Contato contato;
 	
+	@Valid
 	@Embedded
 	private Endereco endereco;
 	
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name="codigo_modal")
 	@NotNull
 	private ModalTransporte modalTransporte;
@@ -66,12 +69,12 @@ public class Transportador implements Serializable {
 		this.email = email;
 	}
 
-	public Telefone getTelefone() {
-		return telefone;
+	public Contato getContato() {
+		return contato;
 	}
 
-	public void setTelefone(Telefone telefone) {
-		this.telefone = telefone;
+	public void setContato(Contato contato) {
+		this.contato = contato;
 	}
 
 	public Endereco getEndereco() {
@@ -89,7 +92,7 @@ public class Transportador implements Serializable {
 	public void setModalTransporte(ModalTransporte modalTransporte) {
 		this.modalTransporte = modalTransporte;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
