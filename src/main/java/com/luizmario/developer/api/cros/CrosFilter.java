@@ -10,13 +10,19 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.luizmario.developer.api.config.property.TransportadoraApiProperty;
+
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CrosFilter implements Filter {
+	
+	@Autowired
+	private TransportadoraApiProperty property;
 
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
@@ -24,7 +30,7 @@ public class CrosFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
 			
-		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Origin", property.getOriginPermitida());
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 			
 		if (request.getMethod().equals("OPTIONS")) {
