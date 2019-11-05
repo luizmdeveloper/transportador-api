@@ -1,4 +1,4 @@
-package com.luizmario.developer.api.repository.filtro.transportador;
+package com.luizmario.developer.api.repository.filtro;
 
 public class TransportadorFiltro {
 	

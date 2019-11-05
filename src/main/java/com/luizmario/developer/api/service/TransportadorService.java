@@ -1,10 +1,14 @@
 package com.luizmario.developer.api.service;
 
+import java.util.Optional;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.luizmario.developer.api.model.Transportador;
 import com.luizmario.developer.api.repository.TransportadorRepository;
+import com.luizmario.developer.api.service.exception.TransportadorNaoEncontradoException;
 
 @Service
 public class TransportadorService {
@@ -12,8 +16,33 @@ public class TransportadorService {
 	@Autowired
 	private TransportadorRepository transportadorRepository;
 	
-	public Transportador salvar(Transportador transportador){
+	@Autowired
+	private ModalTransporteService modalTransporteService;
+	
+	public Transportador salvar(Transportador transportador){	
+		modalTransporteService.buscarModalTransportePorCodigo(transportador.getModalTransporte().getCodigo());		
 		return transportadorRepository.save(transportador);
 	}
-	
+
+	public Transportador alterar(Long codigo, Transportador transportador) {
+		Transportador transportadorSalvo = buscarTransportadorPorCodigo(transportador.getCodigo());
+		modalTransporteService.buscarModalTransportePorCodigo(transportador.getModalTransporte().getCodigo());
+		BeanUtils.copyProperties(transportador, transportadorSalvo, "codigo");
+		return transportadorRepository.save(transportadorSalvo);
+	}
+
+	public void excluir(Long codigo) {
+		Transportador transportador = buscarTransportadorPorCodigo(codigo);
+		transportadorRepository.delete(transportador);
+	}
+
+	private Transportador buscarTransportadorPorCodigo(Long codigo) {
+		Optional<Transportador> optionalTransportador = transportadorRepository.findById(codigo);
+		
+		if (!optionalTransportador.isPresent()) {
+			throw new TransportadorNaoEncontradoException();
+		}
+		
+		return optionalTransportador.get();
+	}	
 }

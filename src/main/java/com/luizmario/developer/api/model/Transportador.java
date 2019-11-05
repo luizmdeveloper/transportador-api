@@ -7,9 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Table(name="transportadores")
 @Entity
@@ -34,6 +37,10 @@ public class Transportador implements Serializable {
 	@Embedded
 	private Endereco endereco;
 	
+	@OneToMany
+	@JoinColumn(name="codigo_modal")
+	@NotNull
+	private ModalTransporte modalTransporte;
 	
 	public Long getCodigo() {
 		return codigo;
@@ -73,6 +80,14 @@ public class Transportador implements Serializable {
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+
+	public ModalTransporte getModalTransporte() {
+		return modalTransporte;
+	}
+
+	public void setModalTransporte(ModalTransporte modalTransporte) {
+		this.modalTransporte = modalTransporte;
 	}
 
 	@Override
