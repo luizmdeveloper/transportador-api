@@ -27,7 +27,7 @@ public class TransportadorRepositoryImpl implements TransportadorRepositoryQuery
 	private EntityManager manager;
 
 	@Override
-	public Page<Transportador> filtrar(Pageable page, TransportadorFiltro filtro) {
+	public List<Transportador> filtrar(TransportadorFiltro filtro) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Transportador> criteria = builder.createQuery(Transportador.class);
 		Root<Transportador> root = criteria.from(Transportador.class);
@@ -35,21 +35,8 @@ public class TransportadorRepositoryImpl implements TransportadorRepositoryQuery
 		Predicate[] predicates = criarRestricoes(filtro, builder, root);
 		criteria.where(predicates);
 		TypedQuery<Transportador> query = manager.createQuery(criteria);
-		adicionarRestricoesPaginacao(query, page);
 		
-		return new PageImpl<>(query.getResultList(), page, calcularTotal(filtro, page));
-	}
-
-	private Long calcularTotal(TransportadorFiltro filtro, Pageable page) {
-		CriteriaBuilder builder = manager.getCriteriaBuilder();
-		CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
-		Root<Transportador> root = criteria.from(Transportador.class);
-		
-		Predicate[] predicates = criarRestricoes(filtro, builder, root);
-		criteria.where(predicates);
-		
-		criteria.select(builder.count(root));		
-		return manager.createQuery(criteria).getSingleResult();
+		return query.getResultList();
 	}
 
 	private Predicate[] criarRestricoes(TransportadorFiltro filtro, CriteriaBuilder builder, Root<Transportador> root) {
@@ -76,14 +63,5 @@ public class TransportadorRepositoryImpl implements TransportadorRepositoryQuery
 		}
 		
 		return predicates.toArray(new Predicate[predicates.size()]);
-	}
-	
-	private void adicionarRestricoesPaginacao(TypedQuery<Transportador> query, Pageable page) {
-		int paginaAtual = page.getPageNumber();
-		int totalRegistroPorPagina = page.getPageSize();
-		int primeiroRegistroDaPagina = paginaAtual * totalRegistroPorPagina;
-		
-		query.setFirstResult(primeiroRegistroDaPagina);
-		query.setMaxResults(totalRegistroPorPagina);
 	}
 }

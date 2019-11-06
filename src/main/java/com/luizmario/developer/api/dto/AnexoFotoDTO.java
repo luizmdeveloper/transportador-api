@@ -1,4 +1,4 @@
-package com.luizmario.developer.api.resource.dto;
+package com.luizmario.developer.api.dto;
 
 public class AnexoFotoDTO {
 	

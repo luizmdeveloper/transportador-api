@@ -1,5 +1,6 @@
 package com.luizmario.developer.api.resource;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
@@ -7,8 +8,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,11 +22,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.luizmario.developer.api.dto.AnexoFotoDTO;
 import com.luizmario.developer.api.event.RecursoCriadoEvent;
 import com.luizmario.developer.api.model.Transportador;
 import com.luizmario.developer.api.repository.TransportadorRepository;
 import com.luizmario.developer.api.repository.filtro.TransportadorFiltro;
-import com.luizmario.developer.api.resource.dto.AnexoFotoDTO;
 import com.luizmario.developer.api.service.TransportadorService;
 import com.luizmario.developer.api.storage.StorageAmazonS3;
 
@@ -48,8 +47,8 @@ public class TransportadorResource {
 	private StorageAmazonS3 storage;
 	
 	@GetMapping
-	public ResponseEntity<Page<Transportador>> buscar(Pageable page, TransportadorFiltro filtro) {
-		return ResponseEntity.ok(transportadorRepository.filtrar(page, filtro));
+	public ResponseEntity<List<Transportador>> buscar(TransportadorFiltro filtro) {
+		return ResponseEntity.ok(transportadorRepository.filtrar(filtro));
 	}
 	
 	@GetMapping("/{codigo}")
