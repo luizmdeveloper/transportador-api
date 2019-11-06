@@ -63,6 +63,9 @@ public class TransportadorService {
 
 	public void excluir(Long codigo) {
 		Transportador transportador = buscarTransportadorPorCodigo(codigo);
+		if (StringUtils.hasText(transportador.getFoto())) {
+			storage.remover(transportador.getFoto());
+		}
 		transportadorRepository.delete(transportador);
 	}
 
