@@ -10,6 +10,7 @@ public abstract class Transportador_ {
 
 	public static volatile SingularAttribute<Transportador, Long> codigo;
 	public static volatile SingularAttribute<Transportador, Endereco> endereco;
+	public static volatile SingularAttribute<Transportador, String> foto;
 	public static volatile SingularAttribute<Transportador, ModalTransporte> modalTransporte;
 	public static volatile SingularAttribute<Transportador, String> nome;
 	public static volatile SingularAttribute<Transportador, Contato> contato;

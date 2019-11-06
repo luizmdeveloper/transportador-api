@@ -18,14 +18,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.luizmario.developer.api.event.RecursoCriadoEvent;
 import com.luizmario.developer.api.model.Transportador;
 import com.luizmario.developer.api.repository.TransportadorRepository;
 import com.luizmario.developer.api.repository.filtro.TransportadorFiltro;
+import com.luizmario.developer.api.resource.dto.AnexoFotoDTO;
 import com.luizmario.developer.api.service.TransportadorService;
+import com.luizmario.developer.api.storage.StorageAmazonS3;
 
 @RestController
 @RequestMapping("/transportadores")
@@ -40,6 +44,9 @@ public class TransportadorResource {
 	@Autowired
 	private ApplicationEventPublisher publisher;
 	
+	@Autowired
+	private StorageAmazonS3 storage;
+	
 	@GetMapping
 	public ResponseEntity<Page<Transportador>> buscar(Pageable page, TransportadorFiltro filtro) {
 		return ResponseEntity.ok(transportadorRepository.filtrar(page, filtro));
@@ -49,6 +56,12 @@ public class TransportadorResource {
 	public ResponseEntity<Transportador> buscar(@PathVariable Long codigo) {
 		Optional<Transportador> optionalTransportador = transportadorRepository.findById(codigo);
 		return optionalTransportador.isPresent() ? ResponseEntity.ok(optionalTransportador.get()) : ResponseEntity.notFound().build();
+	}
+	
+	@PostMapping("/foto")
+	public AnexoFotoDTO uploadImagem(@RequestParam MultipartFile arquivo) {
+		String nome = storage.salvarArquivoTemporario(arquivo);
+		return new AnexoFotoDTO(nome, storage.montarUrl(nome));
 	}
 	
 	@PostMapping

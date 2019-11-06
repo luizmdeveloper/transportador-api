@@ -11,6 +11,7 @@ import com.luizmario.developer.api.model.Transportador;
 import com.luizmario.developer.api.repository.TransportadorRepository;
 import com.luizmario.developer.api.service.exception.NenhumTelefoneInformadoException;
 import com.luizmario.developer.api.service.exception.TransportadorNaoEncontradoException;
+import com.luizmario.developer.api.storage.StorageAmazonS3;
 
 @Service
 public class TransportadorService {
@@ -21,12 +22,19 @@ public class TransportadorService {
 	@Autowired
 	private ModalTransporteService modalTransporteService;
 	
+	@Autowired
+	private StorageAmazonS3 storage;
+	
 	public Transportador salvar(Transportador transportador) {
 		
 		if (transportador.getContato() != null) {			
 			if (temTelefonePreenchido(transportador)) {
 				throw new NenhumTelefoneInformadoException();
 			}
+		}
+		
+		if (StringUtils.hasText(transportador.getFoto())) {
+			storage.salvar(transportador.getFoto());
 		}
 		
 		modalTransporteService.buscarModalTransportePorCodigo(transportador.getModalTransporte().getCodigo());		
@@ -40,6 +48,12 @@ public class TransportadorService {
 			if (temTelefonePreenchido(transportador)) {
 				throw new NenhumTelefoneInformadoException();
 			}
+		}
+		
+		if ((StringUtils.isEmpty(transportador.getFoto())) && (StringUtils.hasText(transportadorSalvo.getFoto()))) {
+			storage.remover(transportadorSalvo.getFoto());
+		} else if ((StringUtils.hasText(transportador.getFoto())) && (!transportador.getFoto().equals(transportadorSalvo.getFoto()))) {
+			storage.subistiuir(transportadorSalvo.getFoto(), transportador.getFoto());
 		}
 		
 		modalTransporteService.buscarModalTransportePorCodigo(transportador.getModalTransporte().getCodigo());

@@ -1,0 +1,1 @@
+ALTER TABLE transportadores DROP COLUMN foto;

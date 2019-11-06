@@ -4,17 +4,22 @@ import java.io.Serializable;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.luizmario.developer.api.repository.listner.TransportadorListner;
+
+@EntityListeners(TransportadorListner.class)
 @Table(name="transportadores")
 @Entity
 public class Transportador implements Serializable {
@@ -44,6 +49,11 @@ public class Transportador implements Serializable {
 	@JoinColumn(name="codigo_modal")
 	@NotNull
 	private ModalTransporte modalTransporte;
+	
+	private String foto;
+	
+	@Transient
+	private String urlFoto;
 	
 	public Long getCodigo() {
 		return codigo;
@@ -93,6 +103,22 @@ public class Transportador implements Serializable {
 		this.modalTransporte = modalTransporte;
 	}
 	
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
+	public String getUrlFoto() {
+		return urlFoto;
+	}
+
+	public void setUrlFoto(String urlFoto) {
+		this.urlFoto = urlFoto;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
