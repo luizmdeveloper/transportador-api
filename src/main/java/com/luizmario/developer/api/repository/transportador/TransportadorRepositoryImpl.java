@@ -42,19 +42,19 @@ public class TransportadorRepositoryImpl implements TransportadorRepositoryQuery
 		if (filtro != null) {
 			
 			if (!StringUtils.isEmpty(filtro.getNome())) {
-				predicates.add(builder.like(builder.upper(root.get(Transportador_.nome)), "%" + filtro.getNome().toUpperCase() + "¨%"));
+				predicates.add(builder.like(builder.upper(root.get(Transportador_.nome)), "%" + filtro.getNome().toUpperCase() + "%"));
 			}
 
 			if (!StringUtils.isEmpty(filtro.getEstado())) {
-				predicates.add(builder.equal(builder.upper(root.get(Transportador_.endereco).get(Endereco_.estado)), filtro.getNome().toUpperCase()));
+				predicates.add(builder.equal(builder.upper(root.get(Transportador_.endereco).get(Endereco_.estado)), filtro.getEstado().toUpperCase()));
 			}
 
 			if (!StringUtils.isEmpty(filtro.getCidade())) {
-				predicates.add(builder.like(builder.upper(root.get(Transportador_.endereco).get(Endereco_.estado)), "%" + filtro.getCidade().toUpperCase() + "%"));
+				predicates.add(builder.like(builder.upper(root.get(Transportador_.endereco).get(Endereco_.cidade)), "%" + filtro.getCidade().toUpperCase() + "%"));
 			}
 			
-			if (filtro.getTipoModal() != 0) {
-				predicates.add(builder.equal(root.get(Transportador_.modalTransporte), filtro.getTipoModal()));
+			if (filtro.getModal() != 0) {
+				predicates.add(builder.equal(root.get(Transportador_.modalTransporte), filtro.getModal()));
 			}
 			
 		}

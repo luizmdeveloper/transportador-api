@@ -5,7 +5,7 @@ public class TransportadorFiltro {
 	private String estado;
 	private String nome;
 	private String cidade;
-	private int tipoModal;
+	private int modal;
 	
 	public String getEstado() {
 		return estado;
@@ -31,11 +31,11 @@ public class TransportadorFiltro {
 		this.cidade = cidade;
 	}
 	
-	public int getTipoModal() {
-		return tipoModal;
+	public int getModal() {
+		return modal;
 	}
 	
-	public void setTipoModal(int tipoModal) {
-		this.tipoModal = tipoModal;
+	public void setModal(int modal) {
+		this.modal = modal;
 	}
 }
